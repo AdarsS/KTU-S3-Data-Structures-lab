@@ -1,0 +1,289 @@
+#include <stdio.h>
+#include<conio.h>
+int BubbleSort()
+{
+int total_count, counter, counter1, swap_var;
+int array[20];
+printf("How many number you want to input?\n");
+scanf("%d", &total_count);
+printf("Please enter %d integers that has to be sorted\n", total_count);
+for (counter = 0; counter < total_count; counter++)
+scanf("%d", &array[counter]);
+for (counter = 0 ; counter < total_count - 1; counter++)
+{
+for (counter1 = 0 ; counter1 < total_count - counter - 1; counter1++)
+{
+if (array[counter1] > array[counter1+1]) /* For decreasing order use < */
+{
+swap_var        = array[counter1];
+array[counter1]   = array[counter1+1];
+array[counter1+1] = swap_var;
+}
+}
+}
+printf("Below is the list of elements sorted in ascending order:\n");
+for (counter = 0; counter < total_count; counter++)
+printf("%d\n", array[counter]);
+return 0;
+}
+void SelectionSort()
+{
+int total_count,counter1,counter2,minimum,temp_value;
+int a[20];
+printf("\n Enter the Number of Elements: ");
+scanf("%d",&total_count);
+printf("\n Enter %d Elements: ",total_count);
+for(counter1=0;counter1<total_count;counter1++)
+{
+scanf("%d",&a[counter1]);
+}
+for(counter1=0;counter1<total_count-1;counter1++)
+{
+minimum=counter1;
+for(counter2=counter1+1;counter2<total_count;counter2++)
+{
+if(a[minimum]>a[counter2])
+minimum=counter2;
+}
+if(minimum!=counter1)
+{
+temp_value=a[counter1];
+a[counter1]=a[minimum];
+a[minimum]=temp_value;
+}
+}
+printf("\n The Sorted array in ascending order: ");
+for(counter1=0;counter1<total_count;counter1++)
+{
+printf("%d ",a[counter1]);
+}
+getch();
+}
+void quicksort_method (int [], int, int);
+int quicksort()
+{
+int element_list[50],count, counter;
+printf("Please enter the total count of the elements that you want to sort: ");
+scanf("%d", &count);
+printf("Please input the elements that has to be sorted:\n");
+for (counter = 0; counter < count; counter++)
+{
+scanf("%d", &element_list[counter]);
+}
+quicksort_method(element_list, 0, count - 1);
+printf("Output generated after using quick sort\n");
+for (counter = 0; counter < count; counter++)
+{
+printf("%d ", element_list[counter]);
+}
+printf("\n");
+return 0;
+}
+void quicksort_method(int element_list[], int low, int high)
+{
+int pivot, value1, value2, temp;
+if (low < high)
+{
+pivot = low;
+value1 = low;
+value2 = high;
+while (value1 < value2)
+{
+while (element_list[value1] <= element_list[pivot] && value1 <= high)
+{
+value1++;
+}
+while (element_list[value2] > element_list[pivot] && value2 >= low)
+{
+value2--;
+}
+if (value1 < value2)
+{
+temp = element_list[value1];
+element_list[value1] = element_list[value2];
+element_list[value2] = temp;
+}
+}
+temp = element_list[value2];
+element_list[value2] = element_list[pivot];
+element_list[pivot] = temp;
+quicksort_method(element_list, low, value2 - 1);
+quicksort_method(element_list, value2 + 1, high);
+}
+}
+void algo_merge_sort(int val[],int counter1,int counter2);
+void perfrom_merge(int val[],int counter11,int counter12,int counter22,int counter21);
+int MergeSort()
+{
+int val[100],chk,counter1;
+printf("Please enter the total count of the elements that you want to sort: \n");
+scanf("%d",&chk);
+printf("Please input the elements that has to be sorted:\n");
+for(counter1=0;counter1<chk;counter1++)
+scanf("%d",&val[counter1]);
+algo_merge_sort(val,0,chk-1);
+printf("\n Output generated after using quick sort \n");
+for(counter1=0;counter1<chk;counter1++)
+printf("%d ",val[counter1]);
+return 0;
+}
+void algo_merge_sort(int val[],int counter1,int counter2)
+{
+int mid;
+if(counter1<counter2)
+{
+mid=(counter1+counter2)/2;
+algo_merge_sort(val,counter1,mid);
+algo_merge_sort(val,mid+1,counter2);
+perfrom_merge(val,counter1,mid,mid+1,counter2);
+}
+}
+void perfrom_merge(int val[],int counter11,int counter12,int counter22,int counter21)
+{
+int temp_val[50];
+int c1,c2,c3;
+c1=counter11;
+c2=counter22;
+c3=0;
+while(c1<=counter12 && c2<=counter21)
+{
+if(val[c1]<val[c2])
+temp_val[c3++]=val[c1++];
+else
+temp_val[c3++]=val[c2++];
+}
+while(c1<=counter12)
+temp_val[c3++]=val[c1++];
+while(c2<=counter21)
+temp_val[c3++]=val[c2++];
+for(c1=counter11,c2=0;c1<=counter21;c1++,c2++)
+val[c1]=temp_val[c2];
+}
+void form(int []);
+void set_down(int [],int);
+int HeapSort()
+{
+int val[100],chk,counter,end,temp_val;
+printf("Please enter the total count of the elements that you want to sort: \n");
+scanf("%d",&chk);
+printf("Please input the elements that has to be sorted:\n");
+for(counter=1;counter<=chk;counter++)
+scanf("%d",&val[counter]);
+val[0]=chk;
+form(val);
+while(val[0] > 1)
+{
+end=val[0];
+temp_val=val[1];
+val[1]=val[end];
+val[end]=temp_val;
+val[0]--;
+set_down(val,1);
+}
+printf("\n Output generated after using heap sort \n");
+for(counter=1;counter<=chk;counter++)
+printf("%d ",val[counter]);
+}
+void form(int val[])
+{
+int counter,chk;
+chk=val[0];
+for(counter=chk/2;counter>=1;counter--)
+set_down(val,counter);
+}
+void set_down(int val[],int counter)
+{
+int counter2,temp_val,chk,flag=1;
+chk=val[0];
+while(2*counter<=chk && flag==1)
+{
+counter2=2*counter;
+if(counter2+1<=chk && val[counter2+1] > val[counter2])
+counter2=counter2+1;
+if(val[counter] > val[counter2])
+flag=0;
+else
+{
+temp_val=val[counter];
+val[counter]=val[counter2];
+val[counter2]=temp_val;
+counter=counter2;
+}
+}
+}
+int Insertion_sort()
+{
+int counter1,counter2,chk,temp_val,val[100];
+printf("Please enter the total count of the elements that you want to sort: \n");
+scanf("%d",&chk);
+printf("Please input the elements that has to be sorted:\n");
+for(counter1=0;counter1<chk;counter1++)
+{
+scanf("%d",&val[counter1]);
+}
+for(counter1=1;counter1<=chk-1;counter1++)
+{
+temp_val=val[counter1];
+counter2=counter1-1;
+while((temp_val<val[counter2])&&(counter2>=0))
+{
+val[counter2+1]=val[counter2];
+counter2=counter2-1;
+}
+val[counter2+1]=temp_val;
+}
+printf("\n Output generated after using insertion sort \n");
+for(counter1=0;counter1<chk;counter1++)
+{
+printf("%d ",val[counter1]);
+}
+return 0;
+}
+int main()
+{
+        int choice;
+        while(1)
+        {
+                printf("\n\n1.Bubble Sort\n");
+                printf("2.Selection Sort\n");
+                printf("3.Quick Sort\n");
+                printf("4.Merge Sort\n");
+                printf("5.Heap Sort\n");
+                printf("6.Insertion Sort\n");
+                printf("7.Exit");
+                printf("\nEnter your choice : ");
+                scanf("%d",&choice);
+
+                switch(choice)
+                {
+                case 1:
+                       // printf("\nBubble Sort");
+                       // scanf("%d",&item);
+                        BubbleSort();
+                        break;
+                case 2:
+                       // printf("\nSelection Sort ");
+
+                        SelectionSort();
+                        break;
+                 case 3:
+                        quicksort();
+                        break;
+                 case 4:
+                        MergeSort();
+                        break;
+                 case 5:
+                        HeapSort();
+                        break;
+
+                 case 6:
+				 		Insertion_sort();
+						 break;
+
+                 case 7:
+                        exit(0);
+                 default:
+                        printf("\nInvalid choice\n");
+                }
+        }
+}
